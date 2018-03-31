@@ -12,6 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -30,6 +37,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        volleyGetRequest();
     }
 
     @Override
@@ -91,5 +100,23 @@ public class MainActivity extends AppCompatActivity
 
     public void setWallpaper(View v) {
         Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
+    }
+
+    public void volleyGetRequest() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://sovereignnz.com/grocery/api/category";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "That did not worked", Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(stringRequest);
     }
 }
