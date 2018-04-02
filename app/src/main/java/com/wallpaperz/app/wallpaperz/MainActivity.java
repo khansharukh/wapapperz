@@ -7,17 +7,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -104,7 +109,7 @@ public class MainActivity extends AppCompatActivity
 
     public void volleyGetRequest() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://sovereignnz.com/grocery/api/category";
+        String url = "https://api.unsplash.com/photos/random?client_id=1681d679e73b1c13a506c95803e55cf5409d24861d444b559a6e8c7524e5141e";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
