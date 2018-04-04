@@ -1,6 +1,11 @@
 package com.wallpaperz.app.wallpaperz;
 
+import android.app.WallpaperManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,11 +28,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +53,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        volleyGetRequest();
+        //volleyGetRequest();
 
-        ImageView imageView = (ImageView) findViewById(R.id.iv_load_image);
+        imageView = (ImageView) findViewById(R.id.iv_load_image);
         Picasso.get()
                 .load("https://source.unsplash.com/random")
                 .placeholder(R.drawable.ic_launcher_foreground)
@@ -112,8 +120,18 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void setWallpaper(View v) {
-        Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
+        Bitmap bmpImg = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+
+        WallpaperManager wallManager = WallpaperManager.getInstance(getApplicationContext());
+        try {
+            wallManager.setBitmap(bmpImg);
+            Toast.makeText(MainActivity.this, "Wallpaper Set Successfully!!", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(MainActivity.this, "Setting WallPaper Failed!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void volleyGetRequest() {
