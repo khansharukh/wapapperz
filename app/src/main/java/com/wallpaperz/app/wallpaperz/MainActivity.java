@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity
         WallpaperManager wallManager = WallpaperManager.getInstance(getApplicationContext());
         try {
             wallManager.setBitmap(bmpImg);
+            wallManager.setBitmap(bmpImg, null, false, WallpaperManager.FLAG_LOCK);
             Toast.makeText(MainActivity.this, "Wallpaper Set Successfully!!", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(MainActivity.this, "Setting WallPaper Failed!!", Toast.LENGTH_SHORT).show();
