@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity
                 .load("https://source.unsplash.com/random")
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
+                .fit()
+                .centerCrop()
                 .into(imageView);
     }
 
