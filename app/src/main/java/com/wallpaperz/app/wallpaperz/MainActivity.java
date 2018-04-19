@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity
             outStream.flush();
             outStream.close();
 
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            intent.setData(Uri.fromFile(outFile));
+            sendBroadcast(intent);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
