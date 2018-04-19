@@ -62,10 +62,12 @@ public class MainActivity extends AppCompatActivity
         fabDownload = findViewById(R.id.fabDownload);
 
         fabSetWallpaper.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here's a Wallpaper Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Here's a Wallpaper Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                setWallpaper();
             }
         });
         fabDownload.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void setWallpaper(View v) {
+    public void setWallpaper() {
         //Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
         Bitmap bmpImg = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
 
