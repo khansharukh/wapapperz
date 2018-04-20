@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -86,10 +87,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
         imageView = (ImageView) findViewById(R.id.iv_load_image);
+
+        getRandomImage();
+    }
+
+    private void getRandomImage() {
+        Toast.makeText(this, "Getting image...", Toast.LENGTH_SHORT).show();
         Picasso.get()
                 .load("https://source.unsplash.com/random")
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .fit()
                 .centerCrop()
                 .into(imageView);
@@ -121,7 +129,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            getRandomImage();
         }
 
         return super.onOptionsItemSelected(item);
