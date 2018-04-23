@@ -32,6 +32,9 @@ import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -88,13 +91,14 @@ public class MainActivity extends AppCompatActivity
         });
         imageView = (ImageView) findViewById(R.id.iv_load_image);
 
-        getRandomImage();
+        //getRandomImage();
+        volleyGetRequest();
     }
 
-    private void getRandomImage() {
+    private void getRandomImage(String url) {
         Toast.makeText(this, "Getting image...", Toast.LENGTH_SHORT).show();
         Picasso.get()
-                .load("https://source.unsplash.com/random")
+                .load(url)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -129,7 +133,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            getRandomImage();
+            volleyGetRequest();
         }
 
         return super.onOptionsItemSelected(item);
@@ -149,11 +153,11 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        }/* else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -208,7 +212,17 @@ public class MainActivity extends AppCompatActivity
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                        try {
+                            JSONObject reader = new JSONObject(response);
+                            JSONObject urls  = reader.getJSONObject("urls");
+                            String regular = urls.getString("regular");
+
+                            Toast.makeText(MainActivity.this, regular, Toast.LENGTH_LONG).show();
+                            getRandomImage(regular);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
